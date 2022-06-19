@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+  <meta charset="ISO-8859-1">
+  <title>Book Application</title>
+  <link rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+</head>
+<body>
+<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+  <!-- Brand -->
+  <a class="navbar-brand" href="#">Book Application</a>
+
+  <!-- Toggler/collapsibe Button -->
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <!-- Navbar links -->
+  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+    <ul class="navbar-nav">
+      <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Logout</a></li>
+    </ul>
+  </div>
+</nav>
+
+<br>
+<br>
+
+<div class="container">
+ <div class = "row">
+  <h1>Welcome <span sec:authentication="principal.username"> User</span></h1></div>
+
+<div class = "row">
+  <div class = "col-lg-3">
+    <a th:href = "@{/adminRegistration/adduser}" class = "btn btn-primary btn-sm mb-3"> Add User</a>
+    <a th:href = "@{/adminRegistration/addbook}" class = "btn btn-primary btn-sm mb-3"> Add Book</a>
+  </div>
+</div>
+<br>
+<br>
+<table class = "table table-striped table-bordered">
+  <thead class = "table-dark">
+  <tr>
+    <th> User First Name</th>
+    <th> User Last Name</th>
+    <th> User Email </th>
+    <th> Actions </th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <tr th:each = "users: ${user}">
+    <td th:text = "${users.firstName}"></td>
+    <td th:text = "${users.lastName}"></td>
+    <td th:text = "${users.email}"></td>
+    <td>
+      <a th:href = "@{/adminRegistration/edituser/{id}(id=${users.id})}"
+         class = "btn btn-primary">Update</a>
+
+      <a th:href = "@{/adminRegistration/delete/{id}(id=${users.id})}"
+         class = "btn btn-danger">Delete</a>
+
+    </td>
+  </tr>
+  </tbody>
+
+</table>
+  <br>
+  <br>
+  <table class = "table table-striped table-bordered">
+    <thead class = "table-dark">
+    <tr>
+      <th> Book Name</th>
+      <th> Book Author</th>
+      <th> Actions </th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each = "books: ${book}">
+      <td th:text = "${books.book_name}"></td>
+      <td th:text = "${books.author}"></td>
+      <td>
+        <a th:href = "@{/adminRegistration/editbook/{id}(id=${books.id})}"
+           class = "btn btn-primary">Update</a>
+
+        <a th:href = "@{/adminRegistration/deletebook/{id}(id=${books.id})}"
+           class = "btn btn-danger">Delete</a>
+
+      </td>
+    </tr>
+    </tbody>
+
+  </table>
+</div>
+</body>
+</html>
